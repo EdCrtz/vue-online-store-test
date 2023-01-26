@@ -1,4 +1,6 @@
 <template>
+    <div class="flex">
+    <div class="inner-block">
     <div class="vue-tempalte">
         <form @submit.prevent="registerUser">
             <h3>Registrarse</h3>
@@ -22,6 +24,8 @@
             </p>
         </form>
     </div>
+</div>
+</div>
 </template>
 <script>
 import axios from 'axios';

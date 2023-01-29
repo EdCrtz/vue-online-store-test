@@ -43,7 +43,7 @@ import axios from 'axios';
                   username: this.name,
                   password: this.password
                 }
-                axios.post('http://localhost:4000/auth/login', data)
+                axios.post('http://34.121.66.23:4000/auth/login', data)
                 .then((response) => {
                     localStorage.setItem("access_token", response.data.access_token)
                     this.$router
@@ -57,10 +57,13 @@ import axios from 'axios';
     async registerUser() {
       const user = { name: this.name, email: this.email, password: this.password };
       try {
-         await axios.post('/users', user);
+         let responseUser =await axios.post('/users', user);
+         if(responseUser.data.status ==400) {
+            this.$toast.warning(responseUser.data.message);
+            return
+         }
          this.$toast.success('Bienvenido!');
          this.login()
-        this.login()
       } catch (error) {
         console.error(error);
       }

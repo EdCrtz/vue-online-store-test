@@ -66,7 +66,7 @@
   <script>
   import axios from 'axios';
   import CardArticleBuy from './CardArticleBuy.vue';
-  import { useLoading } from 'vue3-loading-overlay';
+  //import { useLoading } from 'vue3-loading-overlay';
     // Import stylesheet
     import 'vue3-loading-overlay/dist/vue3-loading-overlay.css';
   export default {
@@ -112,7 +112,7 @@
           this.order.articleId =this.selectedArticle.id;
           this.order.lat =this.center.lat;
           this.order.lon =this.center.lng;
-          await axios.post('http://localhost:3002/api/v1/orders',this.order ,{headers: {'Authorization': 'Bearer '+ token}});
+          await axios.post('http://34.133.118.86:3002/api/v1/orders',this.order ,{headers: {'Authorization': 'Bearer '+ token}});
           this.$refs.CloseBuy.click();
           await this.$toast.success('Producto agregado correctamente al carrito')
           setTimeout(function(context) {
@@ -123,17 +123,18 @@
         }
       },
       getArticles() {
-        let loader = useLoading();
-          loader.show();
+        //let loader = useLoading();
+          //loader.show();
           const token = localStorage.getItem('access_token');
-          axios.get('http://localhost:3001/api/v1/articles/find/all', {headers: {'Authorization': 'Bearer '+ token}})
+          axios.get('http://34.66.40.38:3001/api/v1/articles/find/all', {headers: {'Authorization': 'Bearer '+ token}})
           .then(response => {
               this.articles = response.data;
-              loader.hide()
+              //loader.hide()
           })
           .catch(() => {
+           // console.log(error)
             this.$toast.error("Ocurrio un error al cargar los articulos")
-              loader.hide()
+              //loader.hide()
           });
       },
       newArticle() {

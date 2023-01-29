@@ -10,10 +10,10 @@ const routes = [
     name: 'login',
     component: () => import('../components/LoginStore.vue')
   },
-  { path: '/dashboard/perfil', name: 'perfil', component: import('../components/UserProfile.vue') },
-  { path: '/dashboard', name: 'dashboard', component: import('../components/DashBoard.vue')},
-  { path: '/dashboard/articulos', name: 'articulos', component:import('../components/ArticlesComponent.vue')},
-  { path: '/dashboard/orders', name: 'orders', component:import('../components/OrdersComponent.vue')},
+  { path: '/perfil', name: 'perfil', component:  () => import('../components/UserProfile.vue') },
+  { path: '/dashboard', name: 'dashboard', component:  () => import('../components/DashBoard.vue')},
+  { path: '/articulos', name: 'articulos', component:  () => import('../components/ArticlesComponent.vue')},
+  { path: '/orders', name: 'orders', component:  () => import('../components/OrdersComponent.vue')},
 ]
 
 const router = new createRouter({
@@ -32,6 +32,7 @@ router.beforeEach(async (to, from, next) => {
     else{
         if((to.name == 'login' || to.name == 'signup') && token){
             return { path: '/dashboard' }
+            
         }
         next()
     }

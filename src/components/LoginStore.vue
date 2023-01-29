@@ -34,7 +34,7 @@ methods: {
                   username: this.username,
                   password: this.password
                 }
-                axios.post('http://localhost:4000/auth/login', data)
+                axios.post('http://34.121.66.23:4000/auth/login', data)
                 .then((response) => {
                     localStorage.setItem("access_token", response.data.access_token)
                     this.$router

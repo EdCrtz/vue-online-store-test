@@ -50,7 +50,7 @@ export default {
     async createArticle() {
       try {
         const token = localStorage.getItem('access_token');
-        await axios.post('http://localhost:3001/api/v1/articles',this.newArticle ,{headers: {'Authorization': 'Bearer '+ token}});
+        await axios.post('http://34.66.40.38:3001/api/v1/articles',this.newArticle ,{headers: {'Authorization': 'Bearer '+ token}});
         this.newArticle= {
         name: '',
         description: '',
@@ -58,7 +58,7 @@ export default {
         image: null
       }
       this.$refs.fileInput=undefined;
-        this.$emit('close-modal');
+        this.$emit('created-article');
       } catch (err) {
         console.error(err);
       }

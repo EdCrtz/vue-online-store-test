@@ -13,7 +13,7 @@ import axios from 'axios';
 import Toaster from '@meforma/vue-toaster';
 import Dialog from 'vue3-dialog';
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-axios.defaults.baseURL = 'http://localhost:3000/api/v1';
+axios.defaults.baseURL = 'http://34.132.219.56:3000/api/v1';
 const app = createApp(App)
 // Make sure to _use_ the router instance to make the
 // whole app router-aware.

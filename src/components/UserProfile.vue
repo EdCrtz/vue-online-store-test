@@ -45,10 +45,10 @@ export default {
           password: this.password
         };
         const token = localStorage.getItem('access_token');
-        axios.put('http://localhost:3000/api/v1/users/user', data, {headers: {'Authorization': 'Bearer '+ token}})
+        axios.put('http://34.132.219.56:3000/api/v1/users/user', data, {headers: {'Authorization': 'Bearer '+ token}})
         // eslint-disable-next-line no-unused-vars
         .then((_response) => {
-            alert("Información actualizada exitosamente")
+          this.$toast.success('Cuenta actualizada exitosamente');
         })
         .catch(() => {
           this.$toast.error("Ocurrio un error al actualizar el usuario")
@@ -67,7 +67,7 @@ export default {
             buttons: ['no', 'si'],
             callbacks: {
         si: () => {
-          axios.delete('http://localhost:3000/api/v1/users/user', {headers: {'Authorization': 'Bearer '+ token}})
+          axios.delete('http://34.132.219.56:3000/api/v1/users/user', {headers: {'Authorization': 'Bearer '+ token}})
         // eslint-disable-next-line no-unused-vars
         .then(_response => {
             localStorage.removeItem('access_token')
@@ -87,7 +87,7 @@ export default {
   },
   mounted() {
     const token = localStorage.getItem('access_token');
-    axios.get('http://localhost:3000/api/v1/users/user', {headers: {'Authorization': 'Bearer '+ token}})
+    axios.get('http://34.132.219.56:3000/api/v1/users/user', {headers: {'Authorization': 'Bearer '+ token}})
         // eslint-disable-next-line no-unused-vars
         .then((_response) => {
             this.name=_response.data.name;

@@ -1,5 +1,6 @@
 <!-- eslint-disable no-unused-vars -->
 <!-- eslint-disable no-unused-vars -->
+<!-- eslint-disable no-unused-vars -->
 <template>
     <div class="inner-block2 articlespage">
       <h1>Artículos</h1>
@@ -16,7 +17,7 @@
         </button>
           </div>
           <div class="modal-body">
-            <new-article @close-modal="closeModal"></new-article>
+            <new-article @created-article="closeModal"></new-article>
           </div>
         </div>
       </div>
@@ -69,7 +70,8 @@
   import axios from 'axios';
   import CardArticle from './CardArticle.vue';
   import NewArticle from './NewArticle.vue';
-  import { useLoading } from 'vue3-loading-overlay';
+  // no funciona
+ // import { useLoading } from 'vue3-loading-overlay';
     // Import stylesheet
     import 'vue3-loading-overlay/dist/vue3-loading-overlay.css';
   export default {
@@ -96,27 +98,27 @@
     },
     methods: {
       getArticles() {
-        let loader = useLoading();
+        //let loader = useLoading();
         
-          loader.show();
+          //loader.show();
           const token = localStorage.getItem('access_token');
-          axios.get('http://localhost:3001/api/v1/articles', {headers: {'Authorization': 'Bearer '+ token}})
+          axios.get('http://34.66.40.38:3001/api/v1/articles', {headers: {'Authorization': 'Bearer '+ token}})
           .then(response => {
               this.articles = response.data;
-              loader.hide()
+              //loader.hide()
           })
           // eslint-disable-next-line no-unused-vars
           .catch(_error => {
-              loader.hide()
+              //loader.hide()
           });
       },
       newArticle() {
       this.showModal = true;
     },
     closeModal() {
-      this.showModal = false;
       this.$refs.Close.click();
       this.getArticles()
+  
     },
     convertImage(e) {
         let file = e.target.files[0];
@@ -126,13 +128,11 @@
             this.editArticle.image = e.target.result;
         };
     },
-    async fetchArticle(id) {
+    async fetchArticle(article) {
       try {
-        const token = localStorage.getItem('access_token');
-        const res = await axios.get(`http://localhost:3001/api/v1/articles/${id}`, {headers: {'Authorization': 'Bearer '+ token}});
-        this.editArticle = res.data;
+        this.editArticle = article
+      // eslint-disable-next-line no-empty
       } catch (err) {
-        this.$toast.error("Ocurrio un error al cargar el articulo")
       }
     },
     async updateArticle() {
@@ -145,26 +145,38 @@
         price: this.editArticle.price,
         image: this.editArticle.image
       }
-        await axios.put(`http://localhost:3001/api/v1/articles/${idUpdated}`, this.editArticle,{headers: {'Authorization': 'Bearer '+ token}});
+        await axios.put(`http://34.66.40.38:3001/api/v1/articles/${idUpdated}`, this.editArticle,{headers: {'Authorization': 'Bearer '+ token}});
         this.$refs.CloseEdit.click();
+        this.getArticles()
       } catch (err) {
         this.$toast.error("Ocurrio un error al actualizar el articulo")
       }
     },
-    editProduct(id) {
-        this.fetchArticle(id);
+    editProduct() {
+      //console.log(id)
+        //his.fetchArticle(id);
       },
       deleteProduct(id) {
-        const token = localStorage.getItem('access_token');
-        axios.delete(`http://localhost:3001/api/v1/articles/${id}`, {headers: {'Authorization': 'Bearer '+ token}})
-        // eslint-disable-next-line no-unused-vars
-        .then(_response => {
-            this.getArticles();
-        })
-        // eslint-disable-next-line no-unused-vars
-        .catch(_error => {
-          this.$toast.error("Ocurrio un error al eliminar el articulo")
-        });
+        this.$dialog({
+        message: 'Esta seguro que quiere eliminar este articulo?',
+        buttons: ['no', 'si'],
+        callbacks: {
+          si: () => {
+            const token = localStorage.getItem('access_token');
+            axios.delete('http://34.66.40.38:3001/api/v1/articles/'+id, {headers: {'Authorization': 'Bearer '+ token}})
+            // eslint-disable-next-line no-unused-vars
+            .then(_response => {
+              this.$toast.success('Articulo eliminada exitosamente');
+              this.getArticles();
+            })
+            .catch(() => {
+              this.$toast.error("Ocurrio un error al eliminar el articulo")
+            });
+            //some function
+          }
+        }
+        
+      })
     }
   }
 };

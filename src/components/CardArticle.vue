@@ -28,7 +28,7 @@
     }
     ,methods: {
     editProduct() {
-      this.$emit('edit-product', this.product.id);
+      this.$emit('edit-product', {...this.product});
     },
     deleteProduct() {
       this.$emit('delete-product', this.product.id);

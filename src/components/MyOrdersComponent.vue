@@ -62,7 +62,7 @@
 <script>
 import axios from 'axios';
 import CardOrders from './CardOrders.vue';
-import { useLoading } from 'vue3-loading-overlay';
+//import { useLoading } from 'vue3-loading-overlay';
 // Import stylesheet
 import 'vue3-loading-overlay/dist/vue3-loading-overlay.css';
 export default {
@@ -121,14 +121,14 @@ export default {
         buttons: ['no', 'si'],
         callbacks: {
           si: () => {
-            axios.delete('http://localhost:3002/api/v1/orders/'+order.id, {headers: {'Authorization': 'Bearer '+ token}})
+            axios.delete('http://34.133.118.86:3002/api/v1/orders/'+order.id, {headers: {'Authorization': 'Bearer '+ token}})
             // eslint-disable-next-line no-unused-vars
             .then(_response => {
               this.$toast.success('Orden eliminada exitosamente');
               this.getOrders();
             })
             .catch(() => {
-              this.$toast.error("Ocurrio un error al eliminar el articulo")
+              this.$toast.error("Ocurrio un error al eliminar la orden")
             });
             //some function
           }
@@ -137,8 +137,8 @@ export default {
       })
     },
     updateOrder(){
-      let loader = useLoading();
-      loader.show();
+      //et loader = useLoading();
+      //loader.show();
       const token = localStorage.getItem('access_token');
       const orderNotId = {"userId":this.selectedOrder.userId,
       "articleId": this.selectedOrder.articleId,
@@ -148,15 +148,15 @@ export default {
       "city": this.selectedOrder.city,
       "state":  this.selectedOrder.state,
       "postalCode":this.selectedOrder.postalCode}
-      axios.put('http://localhost:3002/api/v1/orders/'+this.selectedOrder.id,orderNotId,{headers: {'Authorization': 'Bearer '+ token}})
+      axios.put('http://34.133.118.86:3002/api/v1/orders/'+this.selectedOrder.id,orderNotId,{headers: {'Authorization': 'Bearer '+ token}})
       .then(() => {
         this.$refs.CloseEdit.click();
         this.getOrders()
-        loader.hide()
+        //loader.hide()
       })
       .catch(() => {
         this.$toast.error("Ocurrio un error al actualizar la orden")
-        loader.hide()
+        //loader.hide()
       });
     },
     editOrder(order){
@@ -164,17 +164,17 @@ export default {
       
     },
     getOrders() {
-      let loader = useLoading();
-      loader.show();
+      //let loader = useLoading();
+      //loader.show();
       const token = localStorage.getItem('access_token');
-      axios.get('http://localhost:3002/api/v1/orders', {headers: {'Authorization': 'Bearer '+ token}})
+      axios.get('http://34.133.118.86:3002/api/v1/orders', {headers: {'Authorization': 'Bearer '+ token}})
       .then(response => {
         this.orders = response.data;
-        loader.hide()
+        //loader.hide()
       })
       .catch(() => {
         this.$toast.error("Ocurrio un error al cargar las ordenes")
-        loader.hide()
+        //loader.hide()
       });
     },
   }

@@ -22,13 +22,13 @@
       <div id="navbarNav">
         <ul class="nav navbar-nav flex-row float-right">
           <li class="nav-item margin-right">
-            <router-link class="nav-link" :to="{ name: 'orders' }">Pedidos</router-link>
+            <router-link class="nav-link" to="/orders">Pedidos</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" :to="{ name: 'articulos' }">Artículos</router-link>
+            <router-link class="nav-link" to="/articulos">Artículos</router-link>
           </li>
           <li class="nav-item space-button">
-            <router-link class="nav-link" :to="{ name: 'perfil' }">Perfil de Usuario</router-link>
+            <router-link class="nav-link" to="/perfil">Perfil de Usuario</router-link>
           </li>
         </ul>
       </div>
@@ -59,7 +59,7 @@ export default {
   const token = localStorage.getItem('access_token');
   if (token) {
     try{
-       await axios.post('http://localhost:4000/auth/validate', {
+       await axios.post('http://34.121.66.23:4000/auth/validate', {
         token,
       });
       this.isAuthenticated = true;

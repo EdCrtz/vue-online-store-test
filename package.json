@@ -9,9 +9,11 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.11.5",
+    "@fawmi/vue-google-maps": "^0.9.79",
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@fortawesome/vue-fontawesome": "^3.0.3",
+    "@meforma/vue-toaster": "^1.3.0",
     "@popperjs/core": "^2.11.6",
     "axios": "^1.2.3",
     "bootstrap": "^5.2.3",
@@ -21,7 +23,10 @@
     "popper.js": "^1.16.1",
     "portal-vue": "^2.1.7",
     "vue": "^3.2.13",
-    "vue-router": "^4.0.13"
+    "vue-router": "^4.0.13",
+    "vue3-dialog": "^1.3.4",
+    "vue3-google-map": "^0.15.0",
+    "vue3-loading-overlay": "0.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

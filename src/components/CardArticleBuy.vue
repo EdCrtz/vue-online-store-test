@@ -1,15 +1,18 @@
 <template>
-    <div class="product-card">
+    <div class="product-card" v-if="product.user">
       <img :src="product.image" class="product-image">
       <h2 class="product-name">{{ product.name }}</h2>
       <p class="product-description">{{ product.description }}</p>
       <p class="product-price">${{ product.price }}</p>
+      <p class="product-name">Vendido por el usuario:</p>
+      <p class="usuario">{{ product.user.name }}</p>
+      <p class="product-name">Correo de contacto:</p>
+      <p class="correo">
+        {{ product.user.email }}
+      </p>
       <div class="product-actions">
-        <button @click="editProduct"  class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editModal">
-            <i class="fa fa-edit"></i>
-          </button>
-          <button @click="deleteProduct" class="btn btn-danger">
-            <i class="fa fa-trash"></i>
+        <button @click="buy"  class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#buy">
+            <i class="fa fa-shopping-cart"></i>
           </button>
     </div>
     </div>
@@ -27,13 +30,9 @@
       }
     }
     ,methods: {
-    editProduct() {
-      this.$emit('edit-product', this.product.id);
-    },
-    deleteProduct() {
-      this.$emit('delete-product', this.product.id);
-
-    },
+    buy(){
+      this.$emit('buy-product', this.product);
+    }
   },
   computed(){
   }

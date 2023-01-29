@@ -21,6 +21,9 @@
       <a class="navbar-brand" href="#">MarketPlace</a>
       <div id="navbarNav">
         <ul class="nav navbar-nav flex-row float-right">
+          <li class="nav-item margin-right">
+            <router-link class="nav-link" :to="{ name: 'orders' }">Pedidos</router-link>
+          </li>
           <li class="nav-item">
             <router-link class="nav-link" :to="{ name: 'articulos' }">Artículos</router-link>
           </li>
@@ -41,20 +44,31 @@
       </div>
     </div>
   </div>
+  <vue3-confirm-dialog></vue3-confirm-dialog>
 </template>
 
 <script>
-
+import axios from 'axios';
 export default {
   data() {
     return {
     isAuthenticated: false,
   };
   },
-  mounted() {
+  async mounted() {
   const token = localStorage.getItem('access_token');
   if (token) {
-    this.isAuthenticated = true;
+    try{
+       await axios.post('http://localhost:4000/auth/validate', {
+        token,
+      });
+      this.isAuthenticated = true;
+    }catch(error){
+      this.isAuthenticated = false;
+      localStorage.removeItem('access_token')
+      this.$router.push({ path: '/login' }).then(() => { this.$router.go() })
+    }
+    
   }
 },
 }

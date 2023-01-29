@@ -1,6 +1,6 @@
 <template>
     <div>
-      <form>
+      <form @submit.prevent="createArticle">
         <div class="form-group">
           <label for="name">Nombre</label>
           <input type="text" class="form-control" id="name" v-model="newArticle.name" required>
@@ -15,9 +15,9 @@
         </div>
         <div class="form-group">
           <label for="image">Imagen</label>
-          <input type="file" class="form-control-file" id="image" @change="onFileSelected" ref="fileInput" required>
+          <input type="file" class="form-control-file" id="image" @change="convertImage" ref="fileInput" required>
         </div>
-        <button type="submit" class="btn btn-primary" @click="createArticle">Crear</button>
+        <button type="submit" class="btn btn-primary">Crear</button>
       </form>
     </div>
   </template>
@@ -36,29 +36,33 @@ export default {
     }
   },
   methods: {
+    convertImage(e) {
+        let file = e.target.files[0];
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (e) => {
+            this.newArticle.image = e.target.result;
+        };
+    },
     onFileSelected(event) {
       this.newArticle.image = event.target.files[0];
     },
-    createArticle() {
-      const formData = new FormData();
-      formData.append('name', this.newArticle.name);
-      formData.append('description', this.newArticle.description);
-      formData.append('price', this.newArticle.price);
-      formData.append('image', this.newArticle.image);
-      axios.post('http://localhost:4000/articles', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
-      .then(response => {
-        console.log(response);
-        // Limpiar el formulario y mostrar un mensaje de éxito
-      })
-      .catch(error => {
-        console.log(error);
-        // Mostrar un mensaje de error
-      });
-    }
-  }
+    async createArticle() {
+      try {
+        const token = localStorage.getItem('access_token');
+        await axios.post('http://localhost:3001/api/v1/articles',this.newArticle ,{headers: {'Authorization': 'Bearer '+ token}});
+        this.newArticle= {
+        name: '',
+        description: '',
+        price: '',
+        image: null
+      }
+      this.$refs.fileInput=undefined;
+        this.$emit('close-modal');
+      } catch (err) {
+        console.error(err);
+      }
+    },
+  },
 }
 </script>

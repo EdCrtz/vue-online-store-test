@@ -38,11 +38,29 @@ import axios from 'axios';
     };
         },
         methods: {
+            login() {
+                const data = {
+                  username: this.name,
+                  password: this.password
+                }
+                axios.post('http://localhost:4000/auth/login', data)
+                .then((response) => {
+                    localStorage.setItem("access_token", response.data.access_token)
+                    this.$router
+          .push({ name: 'dashboard' })
+          .then(() => { this.$router.go() })
+                })
+                .catch(() => {
+                    this.$toast.error("Ocurrio un error en el login")
+                });
+            },
     async registerUser() {
       const user = { name: this.name, email: this.email, password: this.password };
       try {
-        const response = await axios.post('/users', user);
-        console.log(response);
+         await axios.post('/users', user);
+         this.$toast.success('Bienvenido!');
+         this.login()
+        this.login()
       } catch (error) {
         console.error(error);
       }

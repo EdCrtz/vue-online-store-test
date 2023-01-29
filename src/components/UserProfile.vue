@@ -4,14 +4,14 @@
     <form>
       <div class="form-group">
         <label>Nombre:</label>
-        <input v-model="nombre" type="text" class="form-control" />
+        <input v-model="name" type="text" class="form-control" />
       </div>
       <div class="form-group">
         <label>Email:</label>
         <input v-model="email" type="email" class="form-control" />
       </div>
       <div class="form-group">
-        <label>Contraseña:</label>
+        <label>Nueva Contraseña:</label>
         <input v-model="password" type="password" class="form-control" />
       </div>
       <div>
@@ -29,11 +29,10 @@
 
 <script>
 import axios from 'axios';
-
 export default {
   data() {
     return {
-      nombre: "",
+      name: "",
       email: "",
       password: "",
     };
@@ -41,18 +40,18 @@ export default {
   methods: {
     updateUser() {
         const data = {
-          nombre: this.nombre,
+          name: this.name,
           email: this.email,
           password: this.password
         };
         const token = localStorage.getItem('access_token');
-        axios.patch('http://localhost:4000/auth/user', data, {headers: {'Authorization': 'Bearer '+ token}})
+        axios.put('http://localhost:3000/api/v1/users/user', data, {headers: {'Authorization': 'Bearer '+ token}})
         // eslint-disable-next-line no-unused-vars
         .then((_response) => {
             alert("Información actualizada exitosamente")
         })
-        .catch(error => {
-            console.log(error);
+        .catch(() => {
+          this.$toast.error("Ocurrio un error al actualizar el usuario")
         });
     },
     logOut(){
@@ -61,19 +60,43 @@ export default {
           .push({ path: '/login' })
           .then(() => { this.$router.go() })
     },
-    deleteAccount() {
+    async deleteAccount() {
         const token = localStorage.getItem('access_token');
-        axios.delete('http://localhost:4000/auth/user', {headers: {'Authorization': 'Bearer '+ token}})
+          this.$dialog({
+            message: 'Esta seguro que quiere eliminar esta cuenta?',
+            buttons: ['no', 'si'],
+            callbacks: {
+        si: () => {
+          axios.delete('http://localhost:3000/api/v1/users/user', {headers: {'Authorization': 'Bearer '+ token}})
         // eslint-disable-next-line no-unused-vars
         .then(_response => {
             localStorage.removeItem('access_token')
-            this.$router.push({ path: '/login' });
-            alert("Cuenta eliminada exitosamente")
+            this.$router.push({ path: '/login' }).then(() => { this.$router.go() })
+            this.$toast.success('Cuenta eliminada exitosamente');
         })
-        .catch(error => {
-            console.log(error);
+        .catch(() => {
+          this.$toast.error("Ocurrio un error al eliminar el usuario")
         });
+            //some function
+        }
     }
+      
+          })
+       
+    }
+  },
+  mounted() {
+    const token = localStorage.getItem('access_token');
+    axios.get('http://localhost:3000/api/v1/users/user', {headers: {'Authorization': 'Bearer '+ token}})
+        // eslint-disable-next-line no-unused-vars
+        .then((_response) => {
+            this.name=_response.data.name;
+            this.email=_response.data.email;
+      
+        })
+        .catch(() => {
+          this.$toast.error("Ocurrio un error al cargar el usuario")
+        });
   }
 };
 </script>

@@ -148,6 +148,7 @@
     margin: auto;
     text-align: center;
     font-family: arial;
+    flex-shrink: 3; 
 }
 
 .product-image {
@@ -177,10 +178,10 @@
 }
 .product-list{
     display: flex;
+    flex-wrap: wrap;
 }
 .product-list > .product-card {
-    margin-right: 20px;
-    margin-bottom: 20px;
+    margin: 20px;
 }
 
 
@@ -206,4 +207,26 @@
     .product-list > .product-card {
         flex-basis: 50%;
     }
+}
+
+
+.articlespage{
+    width: inherit;
+}
+
+.margin-right{
+  margin-right: 20px;
+}
+.usuario{
+  color: red;
+  font-size: 16px;
+}
+.correo{
+  color: blue;
+  font-size: 12px;
+}
+.vue-map-container,
+.vue-map-container .vue-map {
+    width: 100%;
+    height: 100%;
 }

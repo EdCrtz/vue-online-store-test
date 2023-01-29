@@ -42,7 +42,10 @@ methods: {
           .then(() => { this.$router.go() })
                 })
                 .catch((error) => {
-                    console.log(error);
+                    if(error.response.status==401){
+                        this.$toast.warning('Usuario o contraseña incorrectos');
+                    }
+              
                 });
             }
         }
